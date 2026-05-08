@@ -5,6 +5,7 @@
 
     <form action="{{ route('pets.update', $pet['id']) }}" method="POST" class="bg-white border border-gray-300 p-4">
         @csrf
+        @method('PUT')
         <div class="mb-3">
             <label for="name" class="block text-sm font-medium text-gray-700">Nazwa *</label>
             <input type="text" id="name" name="name" value="{{ old('name', $pet['name'] ?? '') }}"

@@ -72,4 +72,13 @@ class PetStoreClient
 
         return $response->json() ?? [];
     }
+
+    public function updatePet(array $petPayload)
+    {
+        $response = $this->client()->put('/pet', $petPayload);
+
+        $response->throw();
+
+        return $response->json() ?? [];
+    }
 }

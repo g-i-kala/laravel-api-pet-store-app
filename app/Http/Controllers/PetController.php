@@ -20,7 +20,7 @@ class PetController extends Controller
     public function index(Request $request)
     {
         $status = $request->get('status', 'available');
-        // narazie na sztywno
+
         try {
             $pets = $this->petstoreClient->findPetsByStatus($status);
         } catch (ConnectionException $e) {
@@ -52,11 +52,11 @@ class PetController extends Controller
     {
         // pozniej do FormRequest
         $validated = $request->validate([
-            'name'          => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'category_name' => ['nullable', 'string', 'max:255'],
-            'photo_urls'    => ['nullable', 'string'],
-            'tags'          => ['nullable', 'string'],
-            'status'        => ['required', 'in:available,pending,sold'],
+            'photo_urls' => ['nullable', 'string'],
+            'tags' => ['nullable', 'string'],
+            'status' => ['required', 'in:available,pending,sold'],
         ]);
 
         $photoUrls = [];
@@ -170,12 +170,11 @@ class PetController extends Controller
     {
         // pozniej do FormRequest
         $validated = $request->validate([
-            'id'            => ['required', 'integer'],
-            'name'          => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'category_name' => ['nullable', 'string', 'max:255'],
-            'photo_urls'    => ['nullable', 'string'],
-            'tags'          => ['nullable', 'string'],
-            'status'        => ['required', 'in:available,pending,sold'],
+            'photo_urls' => ['nullable', 'string'],
+            'tags' => ['nullable', 'string'],
+            'status' => ['required', 'in:available,pending,sold'],
         ]);
 
         $photoUrls = [];
@@ -206,6 +205,7 @@ class PetController extends Controller
         }
 
         $petPayload = [
+            'id' => $id,
             'category' => $category,
             'name' => $validated['name'],
             'photoUrls' => $photoUrls,
@@ -215,21 +215,21 @@ class PetController extends Controller
 
         // wysłanie do API POST
         try {
-            $createdPet = $this->petstoreClient->createPet($petPayload);
+            $updatedPet = $this->petstoreClient->updatePet($petPayload);
         } catch (ConnectionException) {
             return back()
                 ->withInput()
-                ->with('error', 'Nie udało się połączyć z API Petstore podczas tworzenia zwierzaka.');
+                ->with('error', 'Nie udało się połączyć z API Petstore podczas aktualizacji danych zwierzaka.');
         } catch (RequestException $e) {
             dd($e);
             return back()
                 ->withInput()
-                ->with('error', 'API Petstore zwróciło błąd podczas tworzenia zwierzaka.');
+                ->with('error', 'API Petstore zwróciło błąd podczas aktualizacji danych zwierzaka.');
         }
 
         return redirect()
-            ->route('pets.show', $createdPet['id'])
-            ->with('success', "Zwierzak dodany.");
+            ->route('pets.show', $updatedPet['id'])
+            ->with('success', "Dane zwierzaka zaktualizowane.");
     }
 
     /**
