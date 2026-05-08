@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="text-2xl font-semibold mb-4">Dodaj nowego zwierza</h1>
 
-    <form action="{{ route('pets.update') }}" method="POST" class="bg-white border border-gray-300 p-4">
+    <form action="{{ route('pets.create') }}" method="POST" class="bg-white border border-gray-300 p-4">
         @csrf
         <div class="mb-3">
             <label for="name" class="block text-sm font-medium text-gray-700">Nazwa *</label>
