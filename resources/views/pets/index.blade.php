@@ -19,7 +19,7 @@
     @else
         <table class="border border-gray-300 bg-white">
             <thead>
-                <tr>
+                <tr class="w-full">
                     <th class="border border-gray-300 px-2 py-1 text-left text-sm">ID</th>
                     <th class="border border-gray-300 px-2 py-1 text-left text-sm">Nazwa</th>
                     <th class="border border-gray-300 px-2 py-1 text-left text-sm">Status</th>
@@ -44,7 +44,7 @@
                         <td class="border border-gray-300 px-2 py-1 text-sm">
                             {{ $pet['category']['name'] ?? '-' }}
                         </td>
-                        <td class="border border-gray-300 px-2 py-1 text-sm">
+                        <td class="border border-gray-300 px-2 py-1 text-sm break-all">
                             @if (!empty($pet['photoUrls'][0]))
                                 <a href="{{ $pet['photoUrls'][0] }}" target="_blank" class="text-blue-600 hover:underline">
                                     {{ $pet['photoUrls'][0] }}
