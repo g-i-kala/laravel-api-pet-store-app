@@ -2,7 +2,18 @@
 
 @section('content')
     <h1 class="text-2xl font-semibold mb-4">Lista Petów</h1>
-
+    <div class="mb-3">
+        <span>Filtr statusu: </span>
+        @foreach (['available', 'pending', 'sold'] as $s)
+            <a href="{{ route('pets.index', ['status' => $s]) }}"
+                class="inline-block px-3 py-1 text-sm font-medium rounded-md me-1
+        {{ request('status') === $s
+            ? 'bg-blue-600 text-white hover:bg-blue-700'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                {{ ucfirst($s) }}
+            </a>
+        @endforeach
+    </div>
     @if (empty($pets))
         <p class="text-gray-700">Brak petów do wyświetlenia.</p>
     @else
