@@ -7,5 +7,5 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/pets', [PetController::class, 'index'])->name('index');
-Route::get('/pets/{id}', [PetController::class, 'show'])->name('show');
+Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
+Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');
