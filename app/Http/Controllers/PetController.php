@@ -98,7 +98,6 @@ class PetController extends Controller
                 ->withInput()
                 ->with('error', 'Nie udało się połączyć z API Petstore podczas tworzenia zwierzaka.');
         } catch (RequestException $e) {
-            dd($e);
             return back()
                 ->withInput()
                 ->with('error', 'API Petstore zwróciło błąd podczas tworzenia zwierzaka.');
@@ -211,7 +210,6 @@ class PetController extends Controller
                 ->withInput()
                 ->with('error', 'Nie udało się połączyć z API Petstore podczas aktualizacji danych zwierzaka.');
         } catch (RequestException $e) {
-            dd($e);
             return back()
                 ->withInput()
                 ->with('error', 'API Petstore zwróciło błąd podczas aktualizacji danych zwierzaka.');

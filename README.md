@@ -7,53 +7,58 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About This App
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It's a reqritment task - limited to 6h of coding - that should: 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Task Description
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project is a small Laravel application that acts as a client for the Swagger Petstore API and focuses on backend logic and API communication rather than UI design.
 
-## Learning Laravel
+### Functional Scope
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The application implements full CRUD operations for the `pet` resource against the external Petstore API:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Create** – add a new pet via `POST /pet`
+- **Read**
+  - list pets by status via `GET /pet/findByStatus`
+  - view a single pet via `GET /pet/{petId}`
+- **Update** – edit an existing pet via `PUT /pet`
+- **Delete** – remove a pet via `DELETE /pet/{petId}`
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### User Interface
 
-## Agentic Development
+A very simple web interface (Blade templates) is provided, containing basic forms and views to:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- display a list of pets,
+- create a new pet,
+- edit an existing pet,
+- view pet details,
+- delete a pet.
 
-```bash
-composer require laravel/boost --dev
+The UI is intentionally minimal – the goal is to demonstrate backend logic and API integration, not front-end styling.
 
-php artisan boost:install
-```
+### Error Handling
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The application handles common error scenarios, including:
 
-## Contributing
+- **Validation errors** for incorrect or missing form data (via Laravel Form Requests),
+- **External API errors**, such as:
+  - connectivity issues (no response from the Petstore API),
+  - HTTP errors returned by the API (e.g. 4xx / 5xx),
+  - missing resources (e.g. pet not found → 404).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+User-friendly flash messages are displayed in the UI to indicate success or failure of operations.
 
-## Code of Conduct
+### Evaluation Focus
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+As requested by the development team:
 
-## Security Vulnerabilities
+- The **visual layer is not a priority** and is not meant to be production-grade.
+- The main focus is on:
+  - the **backend implementation**,
+  - the way the application **communicates with the Petstore API**,
+  - the **structure and clarity of the application logic**,
+  - and how **errors and edge cases** are handled.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# laravel-api-pet-store-app
