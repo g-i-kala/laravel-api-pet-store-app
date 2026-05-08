@@ -61,7 +61,8 @@ class PetController extends Controller
 
         $photoUrls = [];
         if (!empty($validated['photo_urls'])) {
-            $photoUrls = collect(preg_split('/\r\n|\r|\n/', $validated['photo_urls']))
+            $pattern = '/[\r\n,;]+/';  // Add more separators as needed
+            $photoUrls = collect(preg_split($pattern, $validated['photo_urls']))
                 ->map(fn ($line) => trim($line))
                 ->filter()
                 ->values()
@@ -179,11 +180,12 @@ class PetController extends Controller
 
         $photoUrls = [];
         if (!empty($validated['photo_urls'])) {
-            $photoUrls = collect(preg_split('/\r\n|\r|\n/', $validated['photo_urls']))
-                ->map(fn ($line) => trim($line))
-                ->filter()
-                ->values()
-                ->all();
+            $pattern = '/[\r\n,;]+/';  // Add more separators as needed
+            $photoUrls = collect(preg_split($pattern, $validated['photo_urls']))
+                            ->map(fn ($line) => trim($line))
+                            ->filter()
+                            ->values()
+                            ->all();
         }
 
         $tags = [];
