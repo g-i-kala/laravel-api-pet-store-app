@@ -2,39 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Clients\PetStoreClient;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 
 class PetController extends Controller
 {
+    // rejestracja klienta
+    public function __construct(
+        protected PetStoreClient $petstoreClient
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->get('status', 'available');
         // narazie na sztywno
-        $pets = [
-            [
-                'id' => 1,
-                'name' => 'uszatek',
-                'status' => 'available',
-                'category' => 'pluszak',
-                'photoUrls' => ['https://example.com/photo1.jpg'],
-                'tags' => [
-                    ['id' => 1, 'name' => 'friendly'],
-                ],
-                ],
-            [
-                'id' => 2,
-                'name' => 'uszatex',
-                'status' => 'sold',
-                'category' => 'pluszak2',
-                'photoUrls' => [],
-                'tags' => [],
-            ],
-        ];
+        try {
+            $pets = $this->petstoreClient->findPetsByStatus($status);
+        } catch (ConnectionException $e) {
+            // brak odpowiedzi API
+            return back()->with('error', 'Brak odpowiedzi z API Petstore. Spróbuj ponownie później.');
+        } catch (RequestException $e) {
+            // błąd HTTP (4xx/5xx)
+            return back()->with('error', 'Błąd podczas pobierania listy petów z API.');
+        }
 
         return view('pets.index', [
             'pets' => $pets,
+            'status' => $status,
         ]);
     }
 
