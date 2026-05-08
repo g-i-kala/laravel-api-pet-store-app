@@ -164,7 +164,6 @@ class PetController extends Controller
      */
     public function update(UpdatePetRequest $request, string $id)
     {
-        // pozniej do FormRequest
         $validated = $request->validated();
 
         $photoUrls = [];
