@@ -22,16 +22,7 @@ class PetController extends Controller
     public function index(Request $request)
     {
         $status = $request->get('status', 'available');
-
-        try {
-            $pets = $this->petstoreClient->findPetsByStatus($status);
-        } catch (ConnectionException $e) {
-            // brak odpowiedzi API
-            return back()->with('error', 'Brak odpowiedzi z API Petstore. Spróbuj ponownie później.');
-        } catch (RequestException $e) {
-            // błąd HTTP (4xx/5xx)
-            return back()->with('error', 'Błąd podczas pobierania listy petów z API.');
-        }
+        $pets = $this->petstoreClient->findPetsByStatus($status);
 
         return view('pets.index', [
             'pets' => $pets,
@@ -90,22 +81,11 @@ class PetController extends Controller
             'status' => $validated['status'],
         ];
 
-        // wysłanie do API POST
-        try {
-            $createdPet = $this->petstoreClient->createPet($petPayload);
-        } catch (ConnectionException) {
-            return back()
-                ->withInput()
-                ->with('error', 'Nie udało się połączyć z API Petstore podczas tworzenia zwierzaka.');
-        } catch (RequestException $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'API Petstore zwróciło błąd podczas tworzenia zwierzaka.');
-        }
+        $createdPet = $this->petstoreClient->createPet($petPayload);
 
         return redirect()
-            ->route('pets.show', $createdPet['id'])
-            ->with('success', "Zwierzak dodany.");
+        ->route('pets.show', $createdPet['id'])
+        ->with('success', "Zwierzak dodany.");
     }
 
     /**
@@ -113,19 +93,7 @@ class PetController extends Controller
      */
     public function show(string $id)
     {
-        // pobranie zwierzaka o id
-        try {
-            $pet = $this->petstoreClient->findPetById($id);
-        } catch (ConnectionException $e) {
-            return redirect()
-                ->route('pets.index')
-                ->with('error', 'Brak odpowiedzi z API Petstore podczas pobierania szczegółów.');
-        } catch (RequestException $e) {
-
-            return redirect()
-                ->route('pets.index')
-                ->with('error', 'Błąd podczas pobierania szczegółów listy petów z API.');
-        }
+        $pet = $this->petstoreClient->findPetById($id);
 
         return view('pets.show', [
             'pet' => $pet,
@@ -137,19 +105,7 @@ class PetController extends Controller
      */
     public function edit(string $id)
     {
-        try {
-            $pet = $this->petstoreClient->findPetById($id);
-        } catch (ConnectionException $e) {
-            return redirect()
-                ->route('pets.index')
-                ->with('error', 'Brak odpowiedzi z API Petstore podczas pobierania szczegółów.');
-        } catch (RequestException $e) {
-
-            return redirect()
-                ->route('pets.index')
-                ->with('error', 'Błąd podczas pobierania szczegółów listy petów z API.');
-        }
-
+        $pet = $this->petstoreClient->findPetById($id);
         $pet['tags_string'] = $this->implodeField($pet, 'tags', 'name');
         $pet['photoUrls_string'] = $this->implodeSimple($pet['photoUrls'] ?? []);
 
@@ -202,18 +158,7 @@ class PetController extends Controller
             'status' => $validated['status'],
         ];
 
-        // wysłanie do API POST
-        try {
-            $updatedPet = $this->petstoreClient->updatePet($petPayload);
-        } catch (ConnectionException) {
-            return back()
-                ->withInput()
-                ->with('error', 'Nie udało się połączyć z API Petstore podczas aktualizacji danych zwierzaka.');
-        } catch (RequestException $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'API Petstore zwróciło błąd podczas aktualizacji danych zwierzaka.');
-        }
+        $updatedPet = $this->petstoreClient->updatePet($petPayload);
 
         return redirect()
             ->route('pets.show', $updatedPet['id'])
@@ -225,26 +170,7 @@ class PetController extends Controller
      */
     public function destroy(string $id, Request $request)
     {
-        try {
-            $this->petstoreClient->deletePet($id);
-        } catch (ConnectionException) {
-            return back()
-                ->with('error', 'Nie udało się połączyć z API Petstore podczas usuwania zwierzaka.');
-        } catch (RequestException $e) {
-            $status = $e->response?->status();
-
-            if ($status === 404) {
-                return redirect()
-                    ->route('pets.index')
-                    ->with('error', "Zwierzak o ID {$id} nie został znaleziony w API (nie można usunąć).");
-            }
-
-            // na chwilę do debugowania możesz odkomentować:
-            // dd($status, $e->response?->body());
-
-            return back()
-                ->with('error', 'API Petstore zwróciło błąd podczas usuwania zwierzaka.');
-        }
+        $this->petstoreClient->deletePet($id);
 
         $status = $request->get('status', 'available');
         return redirect()
