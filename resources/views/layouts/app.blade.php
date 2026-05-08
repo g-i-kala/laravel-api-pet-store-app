@@ -22,6 +22,10 @@
                     <a href="{{ route('pets.index') }}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
                         Lista
                     </a>
+                    <a href="{{ route('pets.create') }}"
+                        class="inline-block px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                        Nowy Zwierz
+                    </a>
                 </div>
             </div>
         </div>

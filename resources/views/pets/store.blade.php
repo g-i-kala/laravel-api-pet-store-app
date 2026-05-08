@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="text-2xl font-semibold mb-4">Zwierzak {{ $pet['id'] }} - w szczegółach.</h1>
+    <h1 class="text-2xl font-semibold mb-4">Zwierzak - w szczegółach.</h1>
 
     <table class="border border-gray-300 bg-white">
         <thead>
