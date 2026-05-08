@@ -11,6 +11,7 @@ class PetController extends Controller
      */
     public function index()
     {
+        // narazie na sztywno
         $pets = [
             ['id' => 1,
             'category' => 'pluszak',
@@ -20,7 +21,7 @@ class PetController extends Controller
             'name' => 'uszatex',],
         ];
 
-        return view('pet.index', [
+        return view('pets.index', [
             'pets' => $pets,
         ]);
     }
@@ -30,7 +31,7 @@ class PetController extends Controller
      */
     public function create()
     {
-        //
+        return view('pets.create');
     }
 
     /**
@@ -38,7 +39,19 @@ class PetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // pozniej do FormRequest
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'status' => ['required', 'in:available,pending,sold'],
+        ]);
+
+        // wysłanie do API POST
+        // dd($validated)
+
+        // przekierowanie -zakładamy sukces na ten moment
+        return redirect()
+            ->route('pets.index')
+            ->with('success', "Zwierzak dodany.");
     }
 
     /**
