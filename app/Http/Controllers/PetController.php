@@ -15,9 +15,11 @@ class PetController extends Controller
         $pets = [
             ['id' => 1,
             'category' => 'pluszak',
-            'name' => 'uszatek',],
+            'name' => 'uszatek',
+            'status' => 'available'],
             ['id' => 2,
             'category' => 'pluszak2',
+            'status' => 'sold',
             'name' => 'uszatex',],
         ];
 
@@ -59,7 +61,7 @@ class PetController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pet = [];
     }
 
     /**

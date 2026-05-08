@@ -5,6 +5,7 @@
             <th>ID</th>
             <th>Cat</th>
             <th>Name</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -13,6 +14,7 @@
                 <td>{{ $pet['id'] }}</td>
                 <td>{{ $pet['category'] }}</td>
                 <td>{{ $pet['name'] }}</td>
+                <td>{{ $pet['status'] }}</td>
             </tr>
         @endforeach
     </tbody>
