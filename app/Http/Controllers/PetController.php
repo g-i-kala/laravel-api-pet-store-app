@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Clients\PetStoreClient;
+use App\Http\Requests\StorePetRequest;
+use App\Http\Requests\UpdatePetRequest;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
@@ -48,16 +50,9 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePetRequest $request)
     {
-        // pozniej do FormRequest
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'category_name' => ['nullable', 'string', 'max:255'],
-            'photo_urls' => ['nullable', 'string'],
-            'tags' => ['nullable', 'string'],
-            'status' => ['required', 'in:available,pending,sold'],
-        ]);
+        $validated = $request->validated();
 
         $photoUrls = [];
         if (!empty($validated['photo_urls'])) {
@@ -167,16 +162,10 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePetRequest $request, string $id)
     {
         // pozniej do FormRequest
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'category_name' => ['nullable', 'string', 'max:255'],
-            'photo_urls' => ['nullable', 'string'],
-            'tags' => ['nullable', 'string'],
-            'status' => ['required', 'in:available,pending,sold'],
-        ]);
+        $validated = $request->validated();
 
         $photoUrls = [];
         if (!empty($validated['photo_urls'])) {
