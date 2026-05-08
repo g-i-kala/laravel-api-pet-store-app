@@ -48,4 +48,19 @@ class PetStoreClient
 
         return $response->json() ?? [];
     }
+
+    /**
+     * GET /pet/{petId}
+     *
+     * @throws ConnectionException|RequestException
+     */
+
+    public function findPetById(int $id): array
+    {
+        $response = $this->client()->get("/pet/{$id}");
+
+        $response->throw();
+
+        return $response->json() ?? [];
+    }
 }

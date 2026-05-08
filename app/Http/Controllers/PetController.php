@@ -65,7 +65,7 @@ class PetController extends Controller
         // przekierowanie -zakładamy sukces na ten moment
         return redirect()
             ->route('pets.index')
-            ->with('success', "Zwierzak dodany.");
+            ->with('success', "Pet dodany.");
     }
 
     /**
@@ -74,17 +74,18 @@ class PetController extends Controller
     public function show(string $id)
     {
         // pobranie zwierzaka o id
-        $pet = [
-            'id' => $id,
-            'name' => "Sztywny pet",
-            'status' => 'available',
-            'category' => ['id' => 1, 'name' => 'Psy'],
-            'photoUrls' => ['https://example.com/photo1.jpg'],
-            'tags' => [
-                ['id' => 1, 'name' => 'tag1'],
-                ['id' => 2, 'name' => 'tag2'],
-            ],
-        ];
+        try {
+            $pet = $this->petstoreClient->findPetById($id);
+        } catch (ConnectionException $e) {
+            return redirect()
+                ->route('pets.index')
+                ->with('error', 'Brak odpowiedzi z API Petstore podczas pobierania szczegółów.');
+        } catch (RequestException $e) {
+
+            return redirect()
+                ->route('pets.index')
+                ->with('error', 'Błąd podczas pobierania szczegółów listy petów z API.');
+        }
 
         return view('pets.show', [
             'pet' => $pet,

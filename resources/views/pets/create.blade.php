@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="text-2xl font-semibold mb-4">Dodaj nowego peta</h1>
+    <h1 class="text-2xl font-semibold mb-4">Dodaj nowego zwierza</h1>
 
     <form action="{{ route('pets.store') }}" method="POST" class="bg-white border border-gray-300 p-4">
         @csrf
