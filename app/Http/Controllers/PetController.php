@@ -15,14 +15,21 @@ class PetController extends Controller
         $pets = [
             [
                 'id' => 1,
-                'category' => 'pluszak',
                 'name' => 'uszatek',
-                'status' => 'available'],
+                'status' => 'available',
+                'category' => 'pluszak',
+                'photoUrls' => ['https://example.com/photo1.jpg'],
+                'tags' => [
+                    ['id' => 1, 'name' => 'friendly'],
+                ],
+                ],
             [
                 'id' => 2,
-                'category' => 'pluszak2',
-                'status' => 'sold',
                 'name' => 'uszatex',
+                'status' => 'sold',
+                'category' => 'pluszak2',
+                'photoUrls' => [],
+                'tags' => [],
             ],
         ];
 
@@ -46,8 +53,11 @@ class PetController extends Controller
     {
         // pozniej do FormRequest
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'in:available,pending,sold'],
+            'name'          => ['required', 'string', 'max:255'],
+            'category_name' => ['nullable', 'string', 'max:255'],
+            'photo_urls'    => ['nullable', 'string'],
+            'tags'          => ['nullable', 'string'],
+            'status'        => ['required', 'in:available,pending,sold'],
         ]);
 
         // wysłanie do API POST
@@ -67,9 +77,14 @@ class PetController extends Controller
         // pobranie zwierzaka o id
         $pet = [
             'id' => $id,
-            'category' => 'pluszak',
-            'name' => 'imie jego',
+            'name' => "Sztywny pet",
             'status' => 'available',
+            'category' => ['id' => 1, 'name' => 'Psy'],
+            'photoUrls' => ['https://example.com/photo1.jpg'],
+            'tags' => [
+                ['id' => 1, 'name' => 'tag1'],
+                ['id' => 2, 'name' => 'tag2'],
+            ],
         ];
 
         return view('pets.show', [
