@@ -54,7 +54,12 @@
             @endif
         </div>
     </div>
-    <a href="{{ route('pets.index') }}" class="inline-block mt-4 text-blue-600 hover:underline text-sm">
-        ← Powrót do listy
-    </a>
+    <div class="flex justify-between">
+        <a href="{{ route('pets.index') }}" class="inline-block mt-4 text-blue-600 hover:underline text-sm">
+            ← Powrót do listy
+        </a>
+        <a href="{{ route('pets.edit', $pet['id']) }}" class="inline-block mt-4 text-blue-600 hover:underline text-sm">
+            Edycja danych →
+        </a>
+    </div>
 @endsection
