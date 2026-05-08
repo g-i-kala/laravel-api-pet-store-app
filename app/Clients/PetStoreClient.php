@@ -63,4 +63,13 @@ class PetStoreClient
 
         return $response->json() ?? [];
     }
+
+    public function createPet(array $petPayload)
+    {
+        $response = $this->client()->post('/pet/', $petPayload);
+
+        $response->throw();
+
+        return $response->json() ?? [];
+    }
 }

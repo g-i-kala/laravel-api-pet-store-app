@@ -59,13 +59,58 @@ class PetController extends Controller
             'status'        => ['required', 'in:available,pending,sold'],
         ]);
 
-        // wysłanie do API POST
-        // dd($validated)
+        $photoUrls = [];
+        if (!empty($validated['photo_urls'])) {
+            $photoUrls = collect(preg_split('/\r\n|\r|\n/', $validated['photo_urls']))
+                ->map(fn ($line) => trim($line))
+                ->filter()
+                ->values()
+                ->all();
+        }
 
-        // przekierowanie -zakładamy sukces na ten moment
+        $tags = [];
+        if (!empty($validated['tags'])) {
+            $tags = collect(explode(',', $validated['tags']))
+                ->map(fn ($tag) => trim($tag))
+                ->filter()
+                ->map(fn ($name) => ['name' => $name])
+                ->values()
+                ->all();
+        }
+
+        $category = [];
+        if (!empty($validated['category_name'])) {
+            $category = [
+                'id' => random_int(1, 100), // nie mamy id, a api chce int
+                'name' => $validated['category_name'],
+            ];
+        }
+
+        $petPayload = [
+            'category' => $category,
+            'name' => $validated['name'],
+            'photoUrls' => $photoUrls,
+            'tags' => $tags,
+            'status' => $validated['status'],
+        ];
+
+        // wysłanie do API POST
+        try {
+            $createdPet = $this->petstoreClient->createPet($petPayload);
+        } catch (ConnectionException) {
+            return back()
+                ->withInput()
+                ->with('error', 'Nie udało się połączyć z API Petstore podczas tworzenia zwierzaka.');
+        } catch (RequestException $e) {
+            dd($e);
+            return back()
+                ->withInput()
+                ->with('error', 'API Petstore zwróciło błąd podczas tworzenia zwierzaka.');
+        }
+
         return redirect()
-            ->route('pets.index')
-            ->with('success', "Pet dodany.");
+            ->route('pets.show', $createdPet['id'])
+            ->with('success', "Zwierzak dodany.");
     }
 
     /**

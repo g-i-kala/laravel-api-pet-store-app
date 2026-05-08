@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 class="text-2xl font-semibold mb-4">
-        Szczegóły peta #{{ $pet['id'] ?? '-' }}
+        Szczegóły zwierzaka #{{ $pet['id'] ?? '-' }}
     </h1>
     <div class="bg-white border border-gray-300 p-4">
         <p class="mb-2">
