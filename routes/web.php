@@ -14,5 +14,5 @@ Route::prefix('pets')->name('pets.')->group(function () {
     Route::get('/{id}', [PetController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [PetController::class, 'edit'])->name('edit');
     Route::put('/{id}', [PetController::class, 'update'])->name('update');
-    Route::delete('/{id}', [PetController::class, 'destroy'])->name('delete');
+    Route::delete('/{id}', [PetController::class, 'destroy'])->whereNumber('id')->name('destroy');
 });

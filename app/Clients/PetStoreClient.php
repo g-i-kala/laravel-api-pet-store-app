@@ -81,4 +81,13 @@ class PetStoreClient
 
         return $response->json() ?? [];
     }
+
+    public function deletePet(int $id)
+    {
+        $response = $this->client()->delete("/pet/{$id}");
+
+        $response->throw();
+
+        return $response->status();
+    }
 }

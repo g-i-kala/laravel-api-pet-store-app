@@ -4,6 +4,12 @@
     <h1 class="text-2xl font-semibold mb-4">
         Szczegóły zwierzaka #{{ $pet['id'] ?? '-' }}
     </h1>
+    <form action="{{ route('pets.destroy', $pet['id']) }}" method="POST" onsubmit="return confirm('Na pewno?');"
+        class="text-right">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-600 text-sm text-right">Usuń</button>
+    </form>
     <div class="bg-white border border-gray-300 p-4">
         <p class="mb-2">
             <strong>Nazwa:</strong>

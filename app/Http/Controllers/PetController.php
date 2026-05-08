@@ -237,11 +237,38 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        try {
+            $this->petstoreClient->deletePet($id);
+        } catch (ConnectionException) {
+            return back()
+                ->with('error', 'Nie udało się połączyć z API Petstore podczas usuwania zwierzaka.');
+        } catch (RequestException $e) {
+            $status = $e->response?->status();
+
+            if ($status === 404) {
+                return redirect()
+                    ->route('pets.index')
+                    ->with('error', "Zwierzak o ID {$id} nie został znaleziony w API (nie można usunąć).");
+            }
+
+            // na chwilę do debugowania możesz odkomentować:
+            // dd($status, $e->response?->body());
+
+            return back()
+                ->with('error', 'API Petstore zwróciło błąd podczas usuwania zwierzaka.');
+        }
+
+        $status = $request->get('status', 'available');
+        return redirect()
+            ->route('pets.index', ['status' => $status])
+            ->with('success', "Dane zwierzaka id: {$id} zostały usunięte.");
     }
 
+    /**
+     * Helper nested array values 2string
+     */
     private function implodeField(array $pet, string $field, string $key = 'name'): string
     {
         if (!isset($pet[$field]) || !is_array($pet[$field])) {
@@ -254,6 +281,9 @@ class PetController extends Controller
             ->implode(', ');
     }
 
+    /**
+     * Helper array values 2string
+     */
     private function implodeSimple(array $values): string
     {
         if (!is_array($values)) {
