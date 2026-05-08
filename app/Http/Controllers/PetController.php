@@ -155,23 +155,8 @@ class PetController extends Controller
                 ->with('error', 'Błąd podczas pobierania szczegółów listy petów z API.');
         }
 
-        if (isset($pet['tags']) && is_array($pet['tags'])) {
-            $tagNames = collect($pet['tags'])
-                ->pluck('name')
-                ->implode(', ');
-            $pet['tags_string'] = $tagNames;
-        } else {
-            $pet['tags_string'] = '';
-        };
-
-        if (isset($pet['photoUrls']) && is_array($pet['photoUrls'])) {
-            $tagNames = collect($pet['photoUrls'])
-                ->pluck('name')
-                ->implode(', ');
-            $pet['photoUrls_string'] = $tagNames;
-        } else {
-            $pet['photoUrls_string'] = '';
-        }
+        $pet['tags_string'] = $this->implodeField($pet, 'tags', 'name');
+        $pet['photoUrls_string'] = $this->implodeSimple($pet['photoUrls'] ?? []);
 
         return view('pets.edit', [
            'pet' => $pet,
@@ -255,4 +240,26 @@ class PetController extends Controller
         //
     }
 
+    private function implodeField(array $pet, string $field, string $key = 'name'): string
+    {
+        if (!isset($pet[$field]) || !is_array($pet[$field])) {
+            return '';
+        }
+
+        return collect($pet[$field])
+            ->pluck($key)
+            ->filter()
+            ->implode(', ');
+    }
+
+    private function implodeSimple(array $values): string
+    {
+        if (!is_array($values)) {
+            return '';
+        }
+
+        return collect($values)
+            ->filter()
+            ->implode(', ');
+    }
 }

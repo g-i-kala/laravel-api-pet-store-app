@@ -38,7 +38,7 @@
                 required>
                 <option value="">-- wybierz --</option>
                 @foreach (['available', 'pending', 'sold'] as $s)
-                    <option value="{{ $s }}" {{ old('status') === $s ? 'selected' : '' }}>
+                    <option value="{{ $s }}" {{ old('status', $pet['status'] ?? '') === $s ? 'selected' : '' }}>
                         {{ $s }}
                     </option>
                 @endforeach
