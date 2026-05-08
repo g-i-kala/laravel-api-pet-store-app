@@ -35,7 +35,7 @@
                         <td class="border border-gray-300 px-2 py-1 text-sm">
                             {{ $pet['id'] ?? '-' }}
                         </td>
-                        <td class="border border-gray-300 px-2 py-1 text-sm">
+                        <td class="border border-gray-300 px-2 py-1 text-sm break-all">
                             {{ $pet['name'] ?? '-' }}
                         </td>
                         <td class="border border-gray-300 px-2 py-1 text-sm">
