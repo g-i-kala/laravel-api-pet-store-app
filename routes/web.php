@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::get('/pets', [PetController::class, 'index'])->name('index');
+Route::get('/pets/{id}', [PetController::class, 'show'])->name('show');

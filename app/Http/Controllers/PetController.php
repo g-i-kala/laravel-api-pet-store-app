@@ -13,14 +13,17 @@ class PetController extends Controller
     {
         // narazie na sztywno
         $pets = [
-            ['id' => 1,
-            'category' => 'pluszak',
-            'name' => 'uszatek',
-            'status' => 'available'],
-            ['id' => 2,
-            'category' => 'pluszak2',
-            'status' => 'sold',
-            'name' => 'uszatex',],
+            [
+                'id' => 1,
+                'category' => 'pluszak',
+                'name' => 'uszatek',
+                'status' => 'available'],
+            [
+                'id' => 2,
+                'category' => 'pluszak2',
+                'status' => 'sold',
+                'name' => 'uszatex',
+            ],
         ];
 
         return view('pets.index', [
@@ -61,7 +64,17 @@ class PetController extends Controller
      */
     public function show(string $id)
     {
-        $pet = [];
+        // pobranie zwierzaka o id
+        $pet = [
+            'id' => $id,
+            'category' => 'pluszak',
+            'name' => 'imie jego',
+            'status' => 'available',
+        ];
+
+        return view('pets.show', [
+            'pet' => $pet,
+        ]);
     }
 
     /**

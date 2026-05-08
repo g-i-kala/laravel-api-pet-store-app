@@ -1,4 +1,4 @@
-<h1>Petsy</h1>
+<h1>Zwierzaki z Api</h1>
 <table border="1" cellpadding="5">
     <thead>
         <tr>
