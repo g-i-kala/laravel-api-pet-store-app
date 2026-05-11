@@ -9,12 +9,14 @@
 
 ## About This App
 
-It's a reqritment task - limited to 6h of coding - that should: 
+This repository contains a recruitment task implemented with Laravel.  
+The implementation time was limited to **6 hours of coding**.
+
+The goal was to build a small Laravel application that acts as a client for the Swagger Petstore API, with a strong focus on backend logic and API communication rather than UI design.
 
 ## Task Description
 
-This project is a small Laravel application that acts as a client for the Swagger Petstore API and focuses on backend logic and API communication rather than UI design.
-
+The application integrates with the external Swagger Petstore API and exposes a simple web interface to manage pets.
 ### Functional Scope
 
 The application implements full CRUD operations for the `pet` resource against the external Petstore API:
@@ -61,4 +63,21 @@ As requested by the development team:
   - the **structure and clarity of the application logic**,
   - and how **errors and edge cases** are handled.
 
+### Tech Stack & Implementation Notes
+
+- **Framework:** Laravel 13
+- **PHP:** 8.4
+- **Strict types:** `declare(strict_types=1);` enabled in controllers, form requests and client classes
+- **HTTP client:** Laravel HTTP Client (`Illuminate\Support\Facades\Http`) used to communicate with the Petstore API
+- **API integration:**
+  - Dedicated `PetStoreClient` class wrapping all external API calls
+  - Clear separation of concerns: controllers delegate API calls and mapping logic to the client
+- **Validation:** Laravel Form Requests (`StorePetRequest`, `UpdatePetRequest`) used for input validation and error messages
+- **Views:** Blade templates with minimal Tailwind‑style utility classes, focused on usability, not design
+- **Error handling:**
+  - API connectivity and HTTP errors mapped to domain‑level exceptions
+  - User‑friendly error messages shown via session flash messages
+- **Testing (basic):**
+  - HTTP client calls tested with `Http::fake()` where applicable
+  - Focus on verifying correct API interaction and exception behavior rather than exhaustive test coverage
 
