@@ -17,6 +17,78 @@ The goal was to build a small Laravel application that acts as a client for the 
 ## Task Description
 
 The application integrates with the external Swagger Petstore API and exposes a simple web interface to manage pets.
+
+## Installation & Running the App
+
+The project is a standard Laravel application. Below is the setup to run it locally **with Vite** (recommended, since the layout uses `@vite('resources/css/app.css')`).
+
+### 1. Clone the repository
+
+```bash
+git clone <REPO_URL>
+cd laravel-api-pet-store-app
+```
+
+### 2. Install PHP dependencies
+
+```bash
+composer install
+```
+
+### 3. Environment configuration
+
+Copy the example environment file and generate the application key:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Then adjust .env if needed, for example:
+
+```bash
+APP_ENV=local
+APP_DEBUG=true
+
+PETSTORE_BASE_URL=https://petstore.swagger.io/v2
+PETSTORE_API_KEY=****** 
+```
+
+Note: The application does not use a local database; it talks directly to the external Swagger Petstore API.
+
+### 4. Install frontend dependencies (Vite)
+
+```bashv
+npm install
+```
+
+### 5. Run the app (development mode, with Tailwind styling)
+
+In two separate terminals:
+
+```bash
+# Terminal 1 – Laravel dev server
+php artisan serve
+```
+
+```bash
+# Terminal 2 – Vite dev server (assets)
+npm run dev
+```
+Then open the URL shown by php artisan serve (typically http://127.0.0.1:8000) and navigate to /pets.
+
+Without npm run dev (or a production build), the application will still work, but without Tailwind styling, because the CSS is loaded via Vite.
+
+### 6. Production-style build (optional)
+
+If you prefer not to run the Vite dev server, you can build the assets once:
+
+```bash
+npm run build
+php artisan serve
+```
+npm run build will generate the Vite manifest in public/build/, so @vite('resources/css/app.css') will work without a running Vite dev server.
+
 ### Functional Scope
 
 The application implements full CRUD operations for the `pet` resource against the external Petstore API:
