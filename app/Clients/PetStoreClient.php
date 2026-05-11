@@ -54,7 +54,6 @@ class PetStoreClient
             throw new PetstoreException('Błąd podczas pobierania listy zwierzaków z API.', $e->response);
         }
 
-        // rzuci wyjątek dla 4xx/5xx
         $response->throw();
 
         return $response->json() ?? [];
@@ -126,6 +125,12 @@ class PetStoreClient
 
         return $response->json() ?? [];
     }
+
+    /**
+    * Delete pet /pet/{petId}}
+    *
+    * @throws PetstoreException
+    */
 
     public function deletePet(int $id): int
     {

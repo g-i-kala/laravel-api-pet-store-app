@@ -19,6 +19,7 @@ class PetController extends Controller
         protected PetStoreClient $petstoreClient
     ) {
     }
+
     /**
      * Display a listing of the resource.
      */
