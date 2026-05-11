@@ -71,7 +71,7 @@ class PetStoreClient
         } catch (ConnectionException $e) {
             throw new PetstoreException('Brak odpowiedzi z API Petstore podczas pobierania szczegółów zwierzaka.', null);
         } catch (RequestException $e) {
-            $status = $e->response?->status();
+            $status = $e->response->status();
 
             if ($status === 404) {
                 throw new PetstoreException("Zwierzak o ID {$id} nie został znaleziony w API.", $e->response);
@@ -121,7 +121,7 @@ class PetStoreClient
         } catch (ConnectionException $e) {
             throw new PetstoreException('Nie udało się połączyć z API Petstore podczas usuwania zwierzaka.', null);
         } catch (RequestException $e) {
-            $status = $e->response?->status();
+            $status = $e->response->status();
 
             if ($status === 404) {
                 throw new PetstoreException("Zwierzak o ID {$id} nie został znaleziony w API (nie można usunąć).", $e->response);

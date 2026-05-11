@@ -91,7 +91,7 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
         $pet = $this->petstoreClient->findPetById($id);
 
@@ -103,7 +103,7 @@ class PetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
         $pet = $this->petstoreClient->findPetById($id);
         $pet['tags_string'] = $this->implodeField($pet, 'tags', 'name');
@@ -168,7 +168,7 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, Request $request)
+    public function destroy(int $id, Request $request)
     {
         $this->petstoreClient->deletePet($id);
 
@@ -198,10 +198,6 @@ class PetController extends Controller
      */
     private function implodeSimple(array $values): string
     {
-        if (!is_array($values)) {
-            return '';
-        }
-
         return collect($values)
             ->filter()
             ->implode(', ');
