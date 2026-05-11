@@ -54,7 +54,11 @@ PETSTORE_BASE_URL=https://petstore.swagger.io/v2
 PETSTORE_API_KEY=****** 
 ```
 
-Note: The application does not use a local database; it talks directly to the external Swagger Petstore API.
+The application does not rely on a database for its core Petstore functionality, but Laravel ships with some default migrations (e.g. `users` table). To avoid SQLite errors on first run:
+
+```bash
+php artisan migrate
+```
 
 ### 4. Install frontend dependencies (Vite)
 
@@ -89,7 +93,7 @@ php artisan serve
 ```
 npm run build will generate the Vite manifest in public/build/, so @vite('resources/css/app.css') will work without a running Vite dev server.
 
-### Functional Scope
+## Functional Scope
 
 The application implements full CRUD operations for the `pet` resource against the external Petstore API:
 
@@ -100,7 +104,7 @@ The application implements full CRUD operations for the `pet` resource against t
 - **Update** – edit an existing pet via `PUT /pet`
 - **Delete** – remove a pet via `DELETE /pet/{petId}`
 
-### User Interface
+## User Interface
 
 A very simple web interface (Blade templates) is provided, containing basic forms and views to:
 
@@ -112,7 +116,7 @@ A very simple web interface (Blade templates) is provided, containing basic form
 
 The UI is intentionally minimal – the goal is to demonstrate backend logic and API integration, not front-end styling.
 
-### Error Handling
+## Error Handling
 
 The application handles common error scenarios, including:
 
@@ -124,7 +128,7 @@ The application handles common error scenarios, including:
 
 User-friendly flash messages are displayed in the UI to indicate success or failure of operations.
 
-### Evaluation Focus
+## Evaluation Focus
 
 As requested by the development team:
 
@@ -135,7 +139,7 @@ As requested by the development team:
   - the **structure and clarity of the application logic**,
   - and how **errors and edge cases** are handled.
 
-### Tech Stack & Implementation Notes
+## Tech Stack & Implementation Notes
 
 - **Framework:** Laravel 13
 - **PHP:** 8.4
