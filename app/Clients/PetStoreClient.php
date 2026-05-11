@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Clients;
 
 use App\Exceptions\PetstoreException;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
@@ -18,7 +21,7 @@ class PetStoreClient
         $this->apiKey  = config('services.petstore.api_key');
     }
 
-    protected function client()
+    protected function client(): PendingRequest
     {
         $client = Http::acceptJson();
         if ($this->apiKey) {
@@ -32,11 +35,11 @@ class PetStoreClient
     }
 
     /**
-         * GET /pet/findByStatus?status=available
-         *
-         * @return array lista Petów (tablice asocjacyjne)
-         * @throws ConnectionException|RequestException
-         */
+     * GET /pet/findByStatus?status=available
+     *
+     * @return array lista Petów (tablice asocjacyjne)
+     * @throws PetstoreException
+     */
 
     public function findPetsByStatus(string $status = 'available'): array
     {
@@ -60,7 +63,7 @@ class PetStoreClient
     /**
      * GET /pet/{petId}
      *
-     * @throws ConnectionException|RequestException
+     * @throws PetstoreException
      */
 
     public function findPetById(int $id): array
@@ -83,7 +86,12 @@ class PetStoreClient
         return $response->json() ?? [];
     }
 
-    public function createPet(array $petPayload)
+    /**
+     * Create pet /pet
+     *
+     * @throws PetstoreException
+     */
+    public function createPet(array $petPayload): array
     {
         try {
             $response = $this->client()->post('/pet', $petPayload);
@@ -97,7 +105,13 @@ class PetStoreClient
         return $response->json() ?? [];
     }
 
-    public function updatePet(array $petPayload)
+    /**
+    * Update pet /pet}
+    *
+    * @throws PetstoreException
+    */
+
+    public function updatePet(array $petPayload): array
     {
         try {
             $response = $this->client()->put('/pet', $petPayload);
@@ -113,7 +127,7 @@ class PetStoreClient
         return $response->json() ?? [];
     }
 
-    public function deletePet(int $id)
+    public function deletePet(int $id): int
     {
         try {
             $response = $this->client()->delete("/pet/{$id}");

@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Clients\PetStoreClient;
 use App\Http\Requests\StorePetRequest;
 use App\Http\Requests\UpdatePetRequest;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
+use Faker\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PetController extends Controller
 {
-    // rejestracja klienta
+    // Client Registration
     public function __construct(
         protected PetStoreClient $petstoreClient
     ) {
@@ -19,7 +22,7 @@ class PetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View|Factory
     {
         $status = $request->get('status', 'available');
         $pets = $this->petstoreClient->findPetsByStatus($status);
@@ -33,7 +36,7 @@ class PetController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View|Factory
     {
         return view('pets.create');
     }
@@ -41,7 +44,7 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePetRequest $request)
+    public function store(StorePetRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -91,7 +94,7 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(int $id): View|Factory
     {
         $pet = $this->petstoreClient->findPetById($id);
 
@@ -103,7 +106,7 @@ class PetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
+    public function edit(int $id): View|Factory
     {
         $pet = $this->petstoreClient->findPetById($id);
         $pet['tags_string'] = $this->implodeField($pet, 'tags', 'name');
@@ -117,7 +120,7 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePetRequest $request, string $id)
+    public function update(UpdatePetRequest $request, string $id): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -168,7 +171,7 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id, Request $request)
+    public function destroy(int $id, Request $request): RedirectResponse
     {
         $this->petstoreClient->deletePet($id);
 
